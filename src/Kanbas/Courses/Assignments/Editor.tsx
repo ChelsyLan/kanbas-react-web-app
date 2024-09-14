@@ -50,7 +50,7 @@ export default function AssignmentEditor() {
               </td>
             </tr>
             <br />
-            <tr align="right">
+            <tr style={{ textAlign: 'right' }}>
               <td align="left">
                 <label>
                   <strong>Online Entry Options</strong>
@@ -99,7 +99,7 @@ export default function AssignmentEditor() {
                 <label htmlFor="wd-due-date"> Date</label>
                 <br />
                 <input
-                  align="right"
+                 style={{ textAlign: 'right' }}
                   type="date"
                   id="wd-due-tdate"
                   value="2024-05-13"
