@@ -6,7 +6,8 @@ export default function Signin() {
       <input id="wd-username" placeholder="username" /> <br />
       <input id="wd-password" placeholder="password" type="password" /> <br />
       <Link  id="wd-signin-btn"
-             to="/Kanbas/Dashboard"> Sign in </Link> <br />
+             to="/Kanbas/Dashboard"> Sign in </Link> 
+      <br />
       <br />
       <Link id="wd-signup-link" to="/Kanbas/Account/Signup">
         Sign up
