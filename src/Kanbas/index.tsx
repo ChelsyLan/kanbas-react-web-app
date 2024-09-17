@@ -3,6 +3,7 @@ import Account from "./Account";
 import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
 import Courses from "./Courses";
+import { Link } from 'react-router-dom';
 export default function Kanbas() {
   return (
     <div id="wd-kanbas">
@@ -10,6 +11,9 @@ export default function Kanbas() {
         <tr>
           <td valign="top">
             <KanbasNavigation />
+          </td>
+          <td>
+          <Link to="/">Back to Landing Page</Link>
           </td>
           <td valign="top">
             <Routes>

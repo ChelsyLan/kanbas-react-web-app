@@ -7,11 +7,10 @@ function App() {
   return (
     <HashRouter>
       <div>
-        <Routes>
+        <Routes>       
           <Route path="/" element={<Navigate to="Labs" />} />
           <Route path="/Labs/*" element={<Labs />} />
           <Route path = "/Kanbas/" element = {<Kanbas/>}/>
-          <Route path="/Labs/*" element={<Labs />} />
         </Routes>
       </div>
     </HashRouter>

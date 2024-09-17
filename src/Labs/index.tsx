@@ -9,6 +9,8 @@ export default function Labs() {
     return (
       <div>
         <h1>Labs</h1>
+        <h1> Chengxu Lan</h1>
+        <a href="https://github.com/ChelsyLan/kanbas-react-web-app">github repository</a>
         <TOC />
         <a href="https://github.com/ChelsyLan/kanbas-react-web-app" id="wd-github"></a>
         <Routes>
