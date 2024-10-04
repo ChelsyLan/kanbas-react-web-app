@@ -1,137 +1,174 @@
 export default function AssignmentEditor() {
-    return (
-      <div id="wd-assignments-editor">
-        <label htmlFor="wd-name"><strong>Assignment Name</strong></label><br/>
-        <input id="wd-name" value="A1 - ENV + HTML" />
-        <br />
-        <br />
-        <textarea id="wd-description" cols={30} rows={10}>
-          The assignment is available online. Submit a link to the landing page of
-        </textarea>
-        <br />
-        <table>
-          <tbody>
-            <tr>
-              <td align="right" valign="top">
-                <label htmlFor="wd-points">Points</label>
-              </td>
-              <td>
-                <input id="wd-points" placeholder="100" />
-              </td>
-            </tr>
-            <tr>
-              <td align="right" valign="top">
-                <label htmlFor="wd-group">Assignment Group</label>
-              </td>
-              <td align="left" valign="top">
-                <select id="wd-group">
-                  <option value="VAL1">Assignment</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td align="right" valign="top">
-                <label htmlFor="wd-display-grade-as">Display grade as</label>
-              </td>
-              <td align="left" valign="top">
-                <select id="wd-display-grade-as">
-                  <option value="VAL1">Percentage</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td align="right" valign="top">
-                <label htmlFor="wd-submission-type">Submission type</label>
-              </td>
-              <td align="left" valign="top">
-                <select id="wd-submission-type">
-                  <option value="VAL1">Online</option>
-                </select>
-              </td>
-            </tr>
-            <br />
-            <tr style={{ textAlign: 'right' }}>
-              <td align="left">
-                <label>
-                  <strong>Online Entry Options</strong>
-                </label>
-                <br />
-                <input type="checkbox" name="entry-option" id="wd-text-entry" />
-                <label htmlFor="wd-text-entry">Text Entry</label>
-                <br />
-                <input type="checkbox" name="entry-option" id="wd-website-url" />
-                <label htmlFor="wd-website-url">Website URL</label>
-                <br />
-                <input
-                  type="checkbox"
-                  name="entry-option"
-                  id="wd-media-recordings"
-                />
-                <label htmlFor="wd-media-recordings">Media recordings</label>
-                <br />
-                <input
-                  type="checkbox"
-                  name="entry-option"
-                  id="wd-student-annotation"
-                />
-                <label htmlFor="wd-student-annotation">Student Annotation</label>
-                <br />
-                <input type="checkbox" name="entry-option" id="wd-file-upload" />
-                <label htmlFor="wd-file-upload">File Upload</label>
-                <br />
-              </td>
-            </tr>
-            <br />
-  
-            <tr>
-              <td align="right" valign="top">
-                <label htmlFor="wd-assign-to">Assign</label>
-              </td>
-              <td align="left" valign="top">
-                <select id="wd-assign-to">
-                  <option value="VAL1">Everyone</option>
-                </select>
-              </td>
-            </tr>
-            <br />
-            <tr>
-              <td align="right">
-                <label htmlFor="wd-due-date"> Date</label>
-                <br />
-                <input
-                 style={{ textAlign: 'right' }}
-                  type="date"
-                  id="wd-due-tdate"
-                  value="2024-05-13"
-                />
-              </td>
-            </tr>
-            <br />
-  
-            <tr>
-              <td align="right" valign="top">
-                <label htmlFor="wd-available-from">Available from</label>
-              </td>
-              <td>
-                <input type="date" id="wd-available-from" value="2024-05-06" />
-              </td>
-              <td align="right" valign="top">
-                <label htmlFor="wd-available-until">Available Until</label>
-              </td>
-              <td>
-                <input type="date" id="wd-available-until" value="2024-05-20" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <hr />
-        <br />
-        <div style={{ textAlign: 'right' }}>
-          <button>Cancel</button>
-  
-          <button>Save</button>
+  return (
+    <div id="wd-assignments-editor" className="container">
+      <div className="row mb-3">
+        <div className="col">
+          <label htmlFor="wd-name">
+            <strong>Assignment Name</strong>
+          </label>
+          <input
+            id="wd-name"
+            className="form-control"
+            value="A1 - ENV + HTML"
+          />
         </div>
       </div>
-    );
-  }
-  
+
+      <div className="row mb-3">
+        <div className="col">
+          <label htmlFor="wd-description">
+            <strong>Description</strong>
+          </label>
+          <textarea id="wd-description" className="form-control" rows={5}>
+            The assignment is available online. Submit a link to the landing
+            page of
+          </textarea>
+        </div>
+      </div>
+      {/* Points Field */}
+      <div className="row mb-3 align-items-center">
+        <div className="col-md-2 text-end">
+          <label htmlFor="wd-points" className="col-form-label">
+            <strong>Points</strong>
+          </label>
+        </div>
+        <div className="col-md-4">
+          <input id="wd-points" className="form-control" placeholder="100" />
+        </div>
+      </div>
+
+      {/* Assignment Group Field */}
+      <div className="row mb-3 align-items-center">
+        <div className="col-md-2 text-end">
+          <label htmlFor="wd-group" className="col-form-label">
+            <strong>Assignment Group</strong>
+          </label>
+        </div>
+        <div className="col-md-4">
+          <select id="wd-group" className="form-control">
+            <option value="VAL1">Assignments</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Display Grade As Field */}
+      <div className="row mb-3 align-items-center">
+        <div className="col-md-2 text-end">
+          <label htmlFor="wd-display-grade-as" className="col-form-label">
+            <strong>Display Grade As</strong>
+          </label>
+        </div>
+        <div className="col-md-4">
+          <select id="wd-display-grade-as" className="form-control">
+            <option value="VAL1">Percentage</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Submission Type Field */}
+      <div className="row mb-3 align-items-start">
+        <div className="col-md-2 text-end">
+          <label htmlFor="wd-submission-type" className="col-form-label">
+            <strong>Submission Type</strong>
+          </label>
+        </div>
+
+        <div className="col-md-4">
+          <select id="wd-submission-type" className="form-control">
+            <option value="VAL1">Online</option>
+          </select>
+          <div className="col-md-6">
+            <strong>Online Entry Options</strong>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="wd-text-entry"
+              />
+              <label className="form-check-label" htmlFor="wd-text-entry">
+                Text Entry
+              </label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="wd-website-url"
+              />
+              <label className="form-check-label" htmlFor="wd-website-url">
+                Website URL
+              </label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="wd-media-recordings"
+              />
+              <label className="form-check-label" htmlFor="wd-media-recordings">
+                Media Recordings
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="row mb-3 align-items-start">
+        <div className="col-md-2 text-end">
+          <label htmlFor="wd-assign-to" className="col-form-label">
+            <strong>Assign to</strong>
+          </label>
+        </div>
+        <div className="col-md-4">
+          <select id="wd-assign-to" className="form-control">
+            <option value="VAL1">Everyone</option>
+          </select>
+          <div className="col-md-6">
+            <label htmlFor="wd-due-date">
+              <strong>Due Date</strong>
+            </label>
+            <input
+              id="wd-due-date"
+              type="date"
+              className="form-control"
+              value="2024-05-13"
+            />
+          </div>
+          <div className="row mb-3">
+            <div className="col-md-5">
+              <label htmlFor="wd-available-until">
+                <strong>Available from</strong>
+              </label>
+              <input
+                id="wd-available-from"
+                type="date"
+                className="form-control"
+                value="2024-05-06"
+              />
+            </div>
+            <div className="col-md-5">
+              <label htmlFor="wd-available-until">
+                <strong>Until</strong>
+              </label>
+
+              <input
+                id="wd-available-until"
+                type="date"
+                className="form-control"
+                value="2024-05-20"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+      <div className="row mb-3">
+        <div className="col-md-4 offset-md-8 text-end">
+          <button className="btn btn-secondary me-2">Cancel</button>
+          <button className="btn btn-danger">Save</button>
+        </div>
+      </div>
+    </div>
+  );
+}

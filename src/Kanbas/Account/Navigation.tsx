@@ -1,15 +1,12 @@
 import { Link } from "react-router-dom";
-export default function KanbasNavigation() {
+export default function AccountNavigation() {
   return (
-    <div id="wd-kanbas-navigation">
-      <a href="https://www.northeastern.edu/" id="wd-neu-link" target="_blank">Northeastern</a><br/>
-      <Link to="/Kanbas/Account" id="wd-account-link">Account</Link><br/>
-      <Link to="/Kanbas/Dashboard" id="wd-dashboard-link">Dashboard</Link><br/>
-      <Link to="/Kanbas/Dashboard" id="wd-course-link">Courses</Link><br/>
-      <Link to="/Kanbas/Calendar" id="wd-calendar-link">Calendar</Link><br/>
-      <Link to="/Kanbas/Inbox" id="wd-inbox-link">Inbox</Link><br/>
-      <Link to="/Labs" id="wd-labs-link">Labs</Link><br/>
+    <div id="wd-account-navigation" className="wd list-group fs-5 rounded-0">
+      <Link to={`/Kanbas/Account/Signin`} className="list-group-item active border border-0" > Signin  </Link> <br/>
+      <Link to={`/Kanbas/Account/Signup`} className="list-group-item text-danger border border-0" > Signup  </Link> <br/>
+      <Link to={`/Kanbas/Account/Profile`} className="list-group-item text-danger border border-0"> Profile </Link> <br/>
     </div>
+
 );}
 
 
