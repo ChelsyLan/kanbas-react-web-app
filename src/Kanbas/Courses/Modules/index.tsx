@@ -5,9 +5,8 @@ import ModuleControlButtons from "./ModuleControlButtons";
 import { useParams } from "react-router";
 import ModulesControls from "./ModulesControls";
 
-
 export default function Modules() {
-  const cid = useParams();
+  const {cid} = useParams();
   const modules = db.modules;
   return (
     <div>
