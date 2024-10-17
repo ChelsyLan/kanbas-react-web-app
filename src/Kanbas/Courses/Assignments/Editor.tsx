@@ -1,4 +1,13 @@
+import { useLocation,useParams } from "react-router";
+import * as db from "../../Database";
+import { Link } from "react-router-dom";
 export default function AssignmentEditor() {
+  const assignments = db.assignments;
+  
+  const {cid,aid} = useParams();
+  const assignment = assignments.find((assignment) => (assignment._id == aid))
+  
+
   return (
     <div id="wd-assignments-editor" className="container">
       <div className="row mb-3">
@@ -9,7 +18,7 @@ export default function AssignmentEditor() {
           <input
             id="wd-name"
             className="form-control"
-            value="A1 - ENV + HTML"
+            value= {`${assignment?.title}`}
           />
         </div>
       </div>
@@ -20,8 +29,7 @@ export default function AssignmentEditor() {
             <strong>Description</strong>
           </label>
           <textarea id="wd-description" className="form-control" rows={5}>
-            The assignment is available online. Submit a link to the landing
-            page of
+            {`${assignment?.description}`}
           </textarea>
         </div>
       </div>
@@ -33,7 +41,7 @@ export default function AssignmentEditor() {
           </label>
         </div>
         <div className="col-md-4">
-          <input id="wd-points" className="form-control" placeholder="100" />
+          <input id="wd-points" className="form-control" placeholder={`${assignment?.points}`} />
         </div>
       </div>
 
@@ -131,7 +139,7 @@ export default function AssignmentEditor() {
               id="wd-due-date"
               type="date"
               className="form-control"
-              value="2024-05-13"
+              value={`${assignment?.due_date}`}
             />
           </div>
           <div className="row mb-3">
@@ -143,7 +151,7 @@ export default function AssignmentEditor() {
                 id="wd-available-from"
                 type="date"
                 className="form-control"
-                value="2024-05-06"
+                value={`${assignment?.available_date}`}
               />
             </div>
             <div className="col-md-5">
@@ -165,8 +173,12 @@ export default function AssignmentEditor() {
       <hr/>
       <div className="row mb-3">
         <div className="col-md-4 offset-md-8 text-end">
-          <button className="btn btn-secondary me-2">Cancel</button>
-          <button className="btn btn-danger">Save</button>
+        <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">
+            Cancel
+          </Link>
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger">
+            Save
+          </Link>
         </div>
       </div>
     </div>
