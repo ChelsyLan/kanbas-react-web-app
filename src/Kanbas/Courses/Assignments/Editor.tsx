@@ -1,11 +1,34 @@
 import { useLocation,useParams } from "react-router";
 import * as db from "../../Database";
 import { Link } from "react-router-dom";
-export default function AssignmentEditor() {
-  const assignments = db.assignments;
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { addAssignment } from "./reducer";
+
+
+export default function AssignmentEditor({assignment,setAssignment,saveAssignment}:any) {
+  // const assignments = db.assignments;
   
   const {cid,aid} = useParams();
-  const assignment = assignments.find((assignment) => (assignment._id == aid))
+  const [localAssignment, setLocalAssignment] = useState(assignment);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setLocalAssignment((prev: any) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = () => {
+    dispatch(addAssignment(assignment));
+    navigate(`/Courses/${cid}/Assignments`);
+  };
+
+  const handleCancel = () => {
+    navigate(`/Courses/${cid}/Assignments`);
+  };
+
   
 
   return (
@@ -18,7 +41,8 @@ export default function AssignmentEditor() {
           <input
             id="wd-name"
             className="form-control"
-            value= {`${assignment?.title}`}
+            value={localAssignment.title}
+            onChange={handleChange}
           />
         </div>
       </div>
@@ -28,8 +52,8 @@ export default function AssignmentEditor() {
           <label htmlFor="wd-description">
             <strong>Description</strong>
           </label>
-          <textarea id="wd-description" className="form-control" rows={5}>
-            {`${assignment?.description}`}
+          <textarea id="wd-description" className="form-control" rows={5} value={localAssignment.description}
+            onChange={handleChange}>
           </textarea>
         </div>
       </div>
@@ -41,7 +65,8 @@ export default function AssignmentEditor() {
           </label>
         </div>
         <div className="col-md-4">
-          <input id="wd-points" className="form-control" placeholder={`${assignment?.points}`} />
+          <input id="wd-points" className="form-control"  value={localAssignment.points}
+            onChange={handleChange}/>
         </div>
       </div>
 
@@ -139,7 +164,8 @@ export default function AssignmentEditor() {
               id="wd-due-date"
               type="date"
               className="form-control"
-              value={`${assignment?.due_date}`}
+              value={localAssignment.due_date}
+              onChange={handleChange}
             />
           </div>
           <div className="row mb-3">
@@ -151,7 +177,8 @@ export default function AssignmentEditor() {
                 id="wd-available-from"
                 type="date"
                 className="form-control"
-                value={`${assignment?.available_date}`}
+                value={localAssignment.available_date}
+                onChange={handleChange}
               />
             </div>
             <div className="col-md-5">
@@ -173,10 +200,10 @@ export default function AssignmentEditor() {
       <hr/>
       <div className="row mb-3">
         <div className="col-md-4 offset-md-8 text-end">
-        <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">
+        <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary me-2" onChange={handleCancel}>
             Cancel
           </Link>
-          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger">
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger" onChange={handleSave}>
             Save
           </Link>
         </div>

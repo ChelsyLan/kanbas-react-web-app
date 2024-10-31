@@ -3,18 +3,49 @@ import { MdAssignment } from "react-icons/md";
 import { BsGripVertical } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa";
 import * as db from "../../Database";
-import { useParams,useLocation } from "react-router";
+import { useParams, useLocation, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteAssignment } from "./reducer";
+import { FaTrash } from "react-icons/fa6";
 
 export default function Assignments() {
-  
-  const {cid} = useParams();
+  const { cid } = useParams();
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isFaculty = currentUser?.role === "FACULTY";
+  const { assignments } = useSelector((state:any) => state.assignmentsReducer);
 
-  // filter the assignments for current course
-  const assignments = db.assignments.filter((assignment) => (assignment.course === cid))
-  
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [assignmentToDelete, setAssignmentToDelete] = useState<any>(null);
+
+  const handleAddAssignment = () => {
+    navigate(`/Courses/${cid}/Assignments/Editor`);
+  };
+
+  const handleDeleteClick = (assignment:any) => {
+    setAssignmentToDelete(assignment);
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (assignmentToDelete) {
+      dispatch(deleteAssignment(assignmentToDelete._id)); 
+    }
+    setShowDeleteModal(false);
+    setAssignmentToDelete(null);
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+    setAssignmentToDelete(null);
+  };
 
   return (
     <div id="wd-assignments">
+      <h1>Assignments</h1>
       <form className="d-flex" role="search">
         <input
           className="form-control me-2"
@@ -27,20 +58,20 @@ export default function Assignments() {
         </button>
       </form>
 
-      <div className="d-flex justify-content-end">
-        <button className="btn btn-light" id="wd-add-assignment-group">
-          <FaPlus />
-          Group
-        </button>
-        <button className=" btn btn-danger" id="wd-add-assignment">
-          <FaPlus /> Assignment
-        </button>
-      </div>
+      {isFaculty && (
+        <div className="d-flex justify-content-end mb-3">
+          <button
+            className="btn btn-primary"
+            id="wd-add-new-assignment-click"
+            onClick={handleAddAssignment}
+          >
+            <FaPlus /> Assignment
+          </button>
+        </div>
+      )}
 
-      <br></br>
-
-      <ul id="wd-assignment-list list-group rounded-0">
-        <li className=" list-group-item p-0 mb-0 fs-5 border-gray">
+      <ul id="wd-assignment-list" className="list-group rounded-0">
+        <li className="list-group-item p-0 mb-0 fs-5 border-gray">
           <h3 id="wd-assignments-title">
             <BsGripVertical />
             ASSIGNMENTS
@@ -49,34 +80,70 @@ export default function Assignments() {
             </button>
           </h3>
         </li>
-        
-        {assignments.map((assignment) => (
-          <li key = {assignment._id} className="wd-assignment-list-item list-group-item p-0 mb-0 fs-5 border-gray"> 
-          <div className="wd-title p-3 ps-2 bg-secondary">
-              <BsGripVertical />
-              <MdAssignment />
-              <a
-                className="wd-assignment-link text-body-emphasis"
-                href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
-              >
-                {assignment.title}
-                <AssignmentButton />
-              </a>
-            </div>
-            <p className="mb-1">
-              {" "}
-              <span className="text-danger">Multiple modules |</span>{" "}
-              <strong>Not Available until</strong> May 6 at 12:00 am |
-            </p>
-            <small>
-              <strong>Due</strong> May 13 at 11:59 pm, | 100 pts
-            </small>
-          </li>
 
-        ))}
-
+        {assignments
+          .filter((assignment:any) => assignment.course === cid)
+          .map((assignment:any) => (
+            <li
+              key={assignment._id}
+              className="wd-assignment-list-item list-group-item p-0 mb-0 fs-5 border-gray"
+            >
+              <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center">
+                <div>
+                  <BsGripVertical />
+                  <MdAssignment />
+                  <a
+                    className="wd-assignment-link text-body-emphasis ms-2"
+                    href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                  >
+                    {assignment.title}
+                  </a>
+                </div>
+                {isFaculty && (
+                  <FaTrash
+                    className="text-danger ms-3"
+                    onClick={() => handleDeleteClick(assignment)}
+                    style={{ cursor: "pointer" }}
+                  />
+                )}
+              </div>
+              <p className="mb-1">
+                <span className="text-danger">Due: </span> {assignment.due_date} |{" "}
+                <strong>Points:</strong> {assignment.points}
+              </p>
+              <small>
+                <strong>Available From:</strong> {assignment.available_from} |{" "}
+                <strong>Until:</strong> {assignment.available_until}
+              </small>
+            </li>
+          ))}
       </ul>
 
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="modal fade show d-block" tabIndex={-1} style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Confirm Delete</h5>
+                <button type="button" className="btn-close" onClick={handleCancelDelete}></button>
+              </div>
+              <div className="modal-body">
+                <p>Are you sure you want to delete this assignment?</p>
+                <p><strong>{assignmentToDelete?.title}</strong></p>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={handleCancelDelete}>
+                  Cancel
+                </button>
+                <button type="button" className="btn btn-danger" onClick={handleConfirmDelete}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
