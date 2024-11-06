@@ -7,6 +7,7 @@ import { FaPencil } from "react-icons/fa6";
 
 export default function WorkingWithArraysAsynchronously() {
   const [todos, setTodos] = useState<any[]>([]);
+  const [errorMessage, setErrorMessage] = useState(null);
   const fetchTodos = async () => {
     const todos = await client.fetchTodos();
     setTodos(todos);
@@ -16,9 +17,15 @@ export default function WorkingWithArraysAsynchronously() {
     setTodos(updateTodos);
   }
   const deleteTodoInClient = async (todo: any) => {
-    await client.deleteTodo(todo);
-    const newTodos = todos.filter((t) => t.id !== todo.id);
-    setTodos(newTodos);
+    try{
+        await client.deleteTodo(todo);
+        const newTodos = todos.filter((t) => t.id !== todo.id);
+        setTodos(newTodos);
+    }catch(error:any){
+        console.log(error);
+        setErrorMessage(error.response.data.message);
+    }
+   
   };
 
     
@@ -37,9 +44,14 @@ export default function WorkingWithArraysAsynchronously() {
     setTodos(updatedTodos);
   };
   const updateTodo = async (todo: any) => {
-    await client.updateTodo(todo);
-    setTodos(todos.map((t) => (t.id === todo.id ? todo : t)));
-    console.log("delete todo in client"+todo.id);
+    try{
+        await client.updateTodo(todo);
+        setTodos(todos.map((t) => (t.id === todo.id ? todo : t)));
+        console.log("delete todo in client"+todo.id);
+    }catch (error:any){
+        console.log(error);
+        setErrorMessage(error.response.data.message);
+    }
   };
 
   useEffect(() => {
@@ -48,6 +60,7 @@ export default function WorkingWithArraysAsynchronously() {
   return (
     <div id="wd-asynchronous-arrays">
       <h3>Working with Arrays Asynchronously</h3>
+      {errorMessage && (<div id="wd-todo-error-message" className="alert alert-danger mb-2 mt-2">{errorMessage}</div>)}
       <h4>Todos</h4>
       <FaPlusCircle onClick={createTodo} className="text-success float-end fs-3" id="wd-create-todo"/>
       <FaPlusCircle onClick={postTodo}   className="text-primary float-end fs-3 me-3" id="wd-post-todo"   />
@@ -61,6 +74,7 @@ export default function WorkingWithArraysAsynchronously() {
 
              <input type="checkbox" defaultChecked={todo.completed} className="form-check-input me-2 float-start"
               onChange={(e) => updateTodo({ ...todo, completed: e.target.checked }) } />
+               <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
               {!todo.editing ? ( todo.title ) : (
                 <input className="form-control w-50 float-start" defaultValue={todo.title}
                   onKeyDown={(e) => {
@@ -73,8 +87,6 @@ export default function WorkingWithArraysAsynchronously() {
                   }
                 />
               )}
-            <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
-              {todo.title}
             </span>
           </li>
         ))}
