@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import * as db from "./Database";
 import { LuBookMarked } from "react-icons/lu";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { enroll, unenroll } from "./enrollmentSlice";
+import { toggleShowAllCourses, enroll, unenroll } from "./enrollmentSlice";
+import * as enrollmentClient from "./enrollmentsClient";
 
 export default function Dashboard({
   courses,
@@ -23,7 +23,7 @@ export default function Dashboard({
   updateCourse: () => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const isFaculty = currentUser?.role == "FACULTY";
+  const isFaculty = currentUser?.role === "FACULTY";
   const isStudent = currentUser?.role === "STUDENT";
   const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
 
@@ -36,11 +36,13 @@ export default function Dashboard({
     setShowAllCourses(!showAllCourses);
   };
 
-  const handleEnroll = (courseId: string) => {
+  const handleEnroll = async (courseId: string) => {
+    await enrollmentClient.enrollUserInCourse(currentUser._id,courseId);
     dispatch(enroll(courseId));
   };
 
-  const handleUnenroll = (courseId: string) => {
+  const handleUnenroll = async (courseId: string) => {
+    await enrollmentClient.unenrollUserFromCourse(currentUser._id,courseId);
     dispatch(unenroll(courseId));
   };
 
@@ -53,10 +55,6 @@ export default function Dashboard({
       alert("You are not enrolled in this course.");
     }
   };
-
-  const displayedCourses = showAllCourses
-    ? courses
-    : courses.filter((course) => enrollments.includes(course._id));
 
   return (
     <div id="wd-dashboard">
@@ -102,9 +100,9 @@ export default function Dashboard({
       {isStudent && (
         <button
           className="btn btn-primary float-end mb-3"
-          onClick={handleToggleEnrollments}
+          onClick={() => dispatch(toggleShowAllCourses())}
         >
-          {showAllCourses ? "View Enrolled Courses" : "View All Courses"}
+          {showAllCourses ? "Show My Enrollments" : "Show All Courses"}
         </button>
       )}
 
@@ -113,7 +111,7 @@ export default function Dashboard({
 
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {displayedCourses.map((course) => (
+          {courses.map((course) => (
             <div
               className="wd-dashboard-course col"
               style={{ width: "300px" }}
@@ -210,3 +208,4 @@ export default function Dashboard({
     </div>
   );
 }
+

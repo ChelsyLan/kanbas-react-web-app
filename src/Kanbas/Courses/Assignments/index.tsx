@@ -5,10 +5,14 @@ import { FaPlus } from "react-icons/fa";
 import * as db from "../../Database";
 import { useParams, useLocation, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, updateAssignment } from "./reducer";
 import { FaTrash } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+import * as assignmentClient from "./client";
+import * as courseClient from "../client";
+import { setAssignments } from "./reducer";
 
 export default function Assignments() {
   const { cid } = useParams();
@@ -16,32 +20,44 @@ export default function Assignments() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isFaculty = currentUser?.role === "FACULTY";
-  const { assignments } = useSelector((state:any) => state.assignmentsReducer);
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [assignmentToDelete, setAssignmentToDelete] = useState<any>(null);
+
+  const saveAssignmnet = async (assignment: any) => {
+    await assignmentClient.updateAssignment(assignment);
+    dispatch(updateAssignment(assignment));
+  };
+
+  const fetchAssignments = async () => {
+    const assignments = await courseClient.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
+  };
 
   const handleAddAssignment = () => {
     navigate(`/Courses/${cid}/Assignments/Editor`);
   };
 
-  const handleDeleteClick = (assignment:any) => {
+  const handleDeleteClick = (assignment: any) => {
     setAssignmentToDelete(assignment);
     setShowDeleteModal(true);
   };
 
-  const handleConfirmDelete = () => {
-    if (assignmentToDelete) {
-      dispatch(deleteAssignment(assignmentToDelete._id)); 
-    }
-    setShowDeleteModal(false);
-    setAssignmentToDelete(null);
+  const handleConfirmDelete = async(assignmentId:string) => {
+   await assignmentClient.deleteAssignment(assignmentId);
+   fetchAssignments();
   };
 
   const handleCancelDelete = () => {
     setShowDeleteModal(false);
     setAssignmentToDelete(null);
   };
+
+  useEffect(() => {
+    fetchAssignments();
+  }, [cid]);
+
 
   return (
     <div id="wd-assignments">
@@ -82,8 +98,8 @@ export default function Assignments() {
         </li>
 
         {assignments
-          .filter((assignment:any) => assignment.course === cid)
-          .map((assignment:any) => (
+          .filter((assignment: any) => assignment.course === cid)
+          .map((assignment: any) => (
             <li
               key={assignment._id}
               className="wd-assignment-list-item list-group-item p-0 mb-0 fs-5 border-gray"
@@ -92,12 +108,12 @@ export default function Assignments() {
                 <div>
                   <BsGripVertical />
                   <MdAssignment />
-                  <a
-                    className="wd-assignment-link text-body-emphasis ms-2"
-                    href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                  <Link
+                    className="wd-assignment-link fs-5"
+                    to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
                   >
                     {assignment.title}
-                  </a>
+                  </Link>
                 </div>
                 {isFaculty && (
                   <FaTrash
@@ -108,8 +124,8 @@ export default function Assignments() {
                 )}
               </div>
               <p className="mb-1">
-                <span className="text-danger">Due: </span> {assignment.due_date} |{" "}
-                <strong>Points:</strong> {assignment.points}
+                <span className="text-danger">Due: </span> {assignment.due_date}{" "}
+                | <strong>Points:</strong> {assignment.points}
               </p>
               <small>
                 <strong>Available From:</strong> {assignment.available_from} |{" "}
@@ -119,24 +135,42 @@ export default function Assignments() {
           ))}
       </ul>
 
-      {/* Delete Confirmation Modal */}
+      {/* Delete Confirmation Modal*/}
       {showDeleteModal && (
-        <div className="modal fade show d-block" tabIndex={-1} style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+        <div
+          className="modal fade show d-block"
+          tabIndex={-1}
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Confirm Delete</h5>
-                <button type="button" className="btn-close" onClick={handleCancelDelete}></button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={handleCancelDelete}
+                ></button>
               </div>
               <div className="modal-body">
                 <p>Are you sure you want to delete this assignment?</p>
-                <p><strong>{assignmentToDelete?.title}</strong></p>
+                <p>
+                  <strong>{assignmentToDelete?.title}</strong>
+                </p>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={handleCancelDelete}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={handleCancelDelete}
+                >
                   Cancel
                 </button>
-                <button type="button" className="btn btn-danger" onClick={handleConfirmDelete}>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() =>handleConfirmDelete(assignmentToDelete._id)}
+                >
                   Delete
                 </button>
               </div>

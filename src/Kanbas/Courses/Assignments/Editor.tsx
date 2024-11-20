@@ -4,14 +4,24 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { addAssignment } from "./reducer";
+import { addAssignment,updateAssignment,deleteAssignment,setAssignments } from "./reducer";
+import * as assignmentClient from "./client";
+import * as courseClient from "../client";
 
 
 export default function AssignmentEditor({assignment,setAssignment,saveAssignment}:any) {
-  // const assignments = db.assignments;
   
-  const {cid,aid} = useParams();
-  const [localAssignment, setLocalAssignment] = useState(assignment);
+  
+  const {cid} = useParams();
+  const [localAssignment, setLocalAssignment] = useState({
+    _id:"",
+    title: "",
+    description: "",
+    points: 100,
+    due_date: "",
+    available_date: "",
+    course: cid
+  });
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -20,9 +30,24 @@ export default function AssignmentEditor({assignment,setAssignment,saveAssignmen
     setLocalAssignment((prev: any) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = () => {
-    dispatch(addAssignment(assignment));
-    navigate(`/Courses/${cid}/Assignments`);
+  const handleSave = async() => {
+    try {
+      if (localAssignment._id) {
+        // Update existing assignment
+        const updated = await assignmentClient.updateAssignment(localAssignment);
+        dispatch(updateAssignment(updated));
+      } else {
+        // Create new assignment using the existing courseClient method
+        const created = await courseClient.createAssignmentForCourse(
+          cid as string,
+          localAssignment
+        );
+        dispatch(addAssignment(created));
+      }
+      navigate(`/Courses/${cid}/Assignments`);
+    } catch (error) {
+      console.error("Error saving assignment:", error);
+    }
   };
 
   const handleCancel = () => {
