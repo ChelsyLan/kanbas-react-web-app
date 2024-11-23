@@ -31,8 +31,6 @@ export default function Dashboard({
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [showAllCourses, setShowAllCourses] = useState(false);
   const role = currentUser.role;
 
   const handleCourseAccess = (courseId: string) => {

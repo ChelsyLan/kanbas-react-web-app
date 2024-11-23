@@ -36,7 +36,7 @@ export default function Assignments() {
   };
 
   const handleAddAssignment = () => {
-    navigate(`/Courses/${cid}/Assignments/Editor`);
+    navigate(`/Kanbas/Courses/${cid}/Assignments/new`);
   };
 
   const handleDeleteClick = (assignment: any) => {

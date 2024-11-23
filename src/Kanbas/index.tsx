@@ -85,7 +85,7 @@ export default function Kanbas() {
       title: "New Assignment",
       description: "New Description",
     });
-    navigate(`/Courses/${course._id}/Assignments/Editor`);
+    navigate(`/Kanbas/Courses/${course._id}/Assignments/new`);
   };
 
   const navigateToEditor = (courseId: string) => {
@@ -99,7 +99,7 @@ export default function Kanbas() {
       availableUntil: "",
       course: courseId,
     });
-    navigate(`/Courses/${courseId}/Assignments/Editor`);
+    navigate(`/Kanbas/Courses/${courseId}/Assignments/new`);
   };
 
   const deleteAssignment = (assignmentId: string) => {
