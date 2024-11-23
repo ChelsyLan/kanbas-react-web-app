@@ -1,0 +1,57 @@
+.text-light-green {
+  color: #6EC207;
+}
+
+.assignments-controls-container {
+  height: 50px;
+}
+
+.wd-assignment-link {
+  color: black;
+  font-weight: bold;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 1.25rem;
+}
+
+/* Extra classes defined only for the "Assign to" div to look exactly like the UI in the question sheet */
+.custom-input {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .375rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.custom-input:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+}
+
+.custom-input[disabled], .custom-input[readonly] {
+  background-color: #e9ecef;
+  opacity: 1;
+}
+
+.custom-input[disabled] {
+  cursor: not-allowed;
+}
+
+.bg-custom-gray {
+  background: #dfdfdf; /* Light gray hex value */
+}

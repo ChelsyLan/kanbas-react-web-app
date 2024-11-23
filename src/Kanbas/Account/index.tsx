@@ -1,38 +1,46 @@
-import Signin from "./Signin";
-import Profile from "./Profile";
-import Signup from "./Signup";
-import AccountNavigation from "./Navigation";
-import { Route, Routes, Navigate } from "react-router";
-import Dashboard from "../Dashboard";
 import { useSelector } from "react-redux";
+import { Navigate, Route, Routes } from "react-router-dom";
 
-export default function Account() {
+import Signin from "./Signin";
+import Signup from "./Signup";
+import Profile from "./Profile";
+import AccountNavigation from "./AccountNavigation";
+
+const Account = () => {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-
   
   return (
-    <div id="wd-acount-screen">
+    <div id="wd-account-screen">
+      <h2>Account</h2>
       <table>
         <tr>
-          <td valign="top">
-            <AccountNavigation />
-          </td>
+          <td valign="top"><AccountNavigation /></td>
           <td valign="top">
             <Routes>
               <Route
                 path="/"
-                element={ currentUser ? "/Kanbas/Account/Profile" : "/Kanbas/Account/Signin" }/>
-              <Route path="/Signin" element={<Signin />} />
-              <Route path="/Profile" element={<Profile />} />
-              <Route path="/Signup" element={<Signup />} />
-              {/* <Route path="/Dashboard" element = {<Dashboard/>}/> */}
+                element={
+                  <Navigate to={ currentUser ? "/Kanbas/Account/Profile" : "/Kanbas/Account/Signin" } />
+                }
+              />
+              <Route
+                path="/Signin"
+                element={<Signin />}
+              />
+              <Route
+                path="/Profile"
+                element={<Profile />}
+              />
+              <Route
+                path="/Signup"
+                element={<Signup />}
+              />
             </Routes>
           </td>
         </tr>
       </table>
-
-      
     </div>
   );
-}
-export {};
+};
+
+export default Account;

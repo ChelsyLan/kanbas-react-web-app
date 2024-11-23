@@ -1,92 +1,85 @@
 import { FaPlus } from "react-icons/fa6";
-import ModuleEditor from "./ModuleEditor";
+import { MdNotInterested } from "react-icons/md";
+
 import GreenCheckmark from "./GreenCheckmark";
-import { RiForbidLine } from "react-icons/ri";
-export default function ModulesControls({moduleName,setModuleName,addModule}:{moduleName:string,setModuleName:(title:string)=>void;
-addModule:()=>void;}) {
+import ModuleEditor from "./ModuleEditor";
+
+const ModulesControls = ({ moduleName, setModuleName, addModule }: {
+  moduleName: string;
+  setModuleName: (title: string) => void;
+  addModule: () => void;
+}) => {
   return (
-    <div
-      id="wd-modules-controls"
-      className="d-flex justify-content-end align-items-center text-nowrap"
-    >
-      {/* Add Module Button */}
-      <button id="wd-add-module-btn" className="btn btn-lg btn-danger me-3"
-       data-bs-toggle="modal" data-bs-target="#wd-add-module-dialog">
+    <div id="wd-modules-controls" className="text-nowrap">
+      <button
+        id="wd-add-module-btn"
+        data-bs-toggle="modal"
+        data-bs-target="#wd-add-module-dialog"
+        className="btn btn-lg btn-danger me-1 float-end"
+      >
         <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
         Module
       </button>
 
-      {/* Publish All Dropdown */}
-      <div className="dropdown d-inline me-3">
+      <div className="dropdown d-inline me-1 float-end">
         <button
-          id="wd-publish-all-btn"
           className="btn btn-lg btn-secondary dropdown-toggle"
           type="button"
+          id="wd-publish-all-btn"
           data-bs-toggle="dropdown"
+          aria-expanded="false"
         >
           <GreenCheckmark />
           Publish All
         </button>
-        <ul className="dropdown-menu">
+        <ul className="dropdown-menu" aria-labelledby="wd-publish-all-btn">
           <li>
-            <a
-              id="wd-publish-all-modules-and-items-btn"
-              className="dropdown-item"
-              href="#"
-            >
+            {/* eslint-disable-next-line */}
+            <a className="dropdown-item" href="#" id="wd-publish-all-modules-and-items-btn">
               <GreenCheckmark />
               Publish all modules and items
             </a>
           </li>
           <li>
-            <a
-              id="wd-publish-modules-only-button"
-              className="dropdown-item"
-              href="#"
-            >
+            {/* eslint-disable-next-line */}
+            <a className="dropdown-item" href="#" id="wd-publish-modules-only-btn">
               <GreenCheckmark />
               Publish modules only
             </a>
           </li>
           <li>
-            <a
-              id="wd-unpublish-all-modules-and-items"
-              className="dropdown-item"
-              href="#"
-            >
-              <RiForbidLine /> Unpublish all modules and items
+            {/* eslint-disable-next-line */}
+            <a className="dropdown-item" href="#" id="wd-unpublish-all-modules-and-items-btn">
+              <MdNotInterested className="me-1 fs-5" />
+              Unpublish all modules and items
             </a>
           </li>
           <li>
-            <a
-              id="wd-unpublish-modules-only"
-              className="dropdown-item"
-              href="#"
-            >
-              <RiForbidLine /> Unpublish modules only
+            {/* eslint-disable-next-line */}
+            <a className="dropdown-item" href="#" id="wd-unpublish-modules-only-btn">
+              <MdNotInterested className="me-1 fs-5" />
+              Unpublish modules only
             </a>
           </li>
         </ul>
       </div>
 
-      {/* View Progress and Collapse All Buttons */}
-      <button
-        type="button"
-        id="wd-view-progress"
-        className="btn btn-lg btn-secondary me-3"
-      >
+      <button id="wd-view-progress-btn" className="btn btn-lg btn-secondary me-1 float-end">
         View Progress
       </button>
-      <button
-        type="button"
-        id="wd-collapse-all"
-        className="btn btn-lg btn-secondary"
-      >
+
+      <button id="wd-collapse-all-btn" className="btn btn-lg btn-secondary me-1 float-end">
         Collapse All
       </button>
-      <ModuleEditor dialogTitle="Add Module" moduleName={moduleName}
-                    setModuleName={setModuleName} addModule={addModule} />
 
+      <ModuleEditor
+        dialogTitle="Add Module"
+        moduleName={moduleName}
+        setModuleName={setModuleName}
+        addModule={addModule}
+      />
     </div>
   );
-}
+};
+
+export default ModulesControls;
