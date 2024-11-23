@@ -9,7 +9,7 @@ import PeopleTable from "./People/Table";
 
 
 export default function Courses({courses}:{courses:any[];}) {
-  const {cid} = useParams(); // accept courses from Kanbas
+  const {cid} = useParams(); 
   const course = courses.find((course)=>course._id == cid);
   const {pathname} = useLocation();
   return (
@@ -29,6 +29,7 @@ export default function Courses({courses}:{courses:any[];}) {
       <Route path="Modules" element={<Modules />} />
       <Route path="Assignments" element={<Assignments />} />
       <Route path="Assignments/:aid" element={<AssignmentEditor />} />
+      <Route path="Assignments/Editor" element={<AssignmentEditor />} />
       <Route path = "People" element = {<PeopleTable/>}/>
     </Routes>
     </div></div>

@@ -44,14 +44,14 @@ export default function AssignmentEditor({assignment,setAssignment,saveAssignmen
         );
         dispatch(addAssignment(created));
       }
-      navigate(`/Courses/${cid}/Assignments`);
+      navigate(`/Kanbas/Courses/${cid}/Assignments`);
     } catch (error) {
       console.error("Error saving assignment:", error);
     }
   };
 
   const handleCancel = () => {
-    navigate(`/Courses/${cid}/Assignments`);
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };
 
   

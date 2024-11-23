@@ -39,8 +39,12 @@ export default function Kanbas() {
     description: "New Description",
   });
   const addNewCourse = async () => {
-    const newCourse = await userClient.createCourse(course);
+    try{
+      const newCourse = await userClient.createCourse(course);
     setCourses([...courses, newCourse]);
+    }catch(error){
+      console.error("Error adding new course",error);
+    }
   };
   const deleteCourse = async (courseId: string) => {
     // delete the course from the server and then filters out the course from the local courses state variable.

@@ -25,7 +25,6 @@ export default function Account() {
               <Route path="/Signin" element={<Signin />} />
               <Route path="/Profile" element={<Profile />} />
               <Route path="/Signup" element={<Signup />} />
-              {/* <Route path="/Dashboard" element = {<Dashboard/>}/> */}
             </Routes>
           </td>
         </tr>

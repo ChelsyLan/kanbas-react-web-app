@@ -10,8 +10,14 @@ export default function Profile() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const updateProfile = async () => {
-    const updateProfile = await client.updateUser(profile);
-    dispatch(setCurrentUser(updateProfile));
+    try {
+      const updatedProfile = await client.updateUser(profile);
+      dispatch(setCurrentUser(updatedProfile));
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Error updating profile. Please try again.");
+    }
   };
   const fetchProfile = () => {
     if (!currentUser) return navigate("/Kanbas/Account/Signin");
@@ -80,8 +86,8 @@ export default function Profile() {
             className="form-control mb-2"
             id="wd-role"
           >
-            <option value="USER">User</option>{" "}
-            <option value="ADMIN">Admin</option>
+            {/* <option value="USER">User</option>{" "}
+            <option value="ADMIN">Admin</option> */}
             <option value="FACULTY">Faculty</option>{" "}
             <option value="STUDENT">Student</option>
           </select>
