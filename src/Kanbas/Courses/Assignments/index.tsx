@@ -146,8 +146,8 @@ export default function Assignments() {
                 | <strong>Points:</strong> {assignment.points}
               </p>
               <small>
-                <strong>Available From:</strong> {assignment.available_from} |{" "}
-                <strong>Until:</strong> {assignment.available_until}
+                <strong>Available From:</strong> {assignment.available_date} |{" "}
+                <strong>Until:</strong> {assignment.due_date}
               </small>
             </li>
           ))}

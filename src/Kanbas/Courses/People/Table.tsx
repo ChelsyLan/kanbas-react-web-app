@@ -1,11 +1,18 @@
-import { useParams } from "react-router-dom";
+import { useParams} from "react-router-dom";
+import { useState,useEffect } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import * as db from "../../Database";
 import { Link } from "react-router-dom";
 import PeopleDetails from "./Details";
- 
+import * as courseClient from "../client";
 
-export default function PeopleTable({ users = [] }: { users?: any[] }) {
+export default function PeopleTable() {
+  const { cid } = useParams();
+  const [users, setCourseUsers] = useState<any[]>([]);
+  useEffect(() => {
+    if (!cid) return;
+    courseClient.findUsersForCourse(cid).then(setCourseUsers);
+  }, []);
+
   return (
     <div id="wd-people-table">
       <PeopleDetails/>
