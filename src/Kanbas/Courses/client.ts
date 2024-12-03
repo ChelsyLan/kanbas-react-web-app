@@ -2,10 +2,7 @@ import axios from "axios";
 
 // configure axios to include cookies in requests
 const axiosWithCredentials = axios.create({ 
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json'
-  }
+  withCredentials: true
 });
 
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER || 'http://localhost:4000';
@@ -31,7 +28,7 @@ export const updateCourse = async (course: any) => {
 };
 
 export const findUsersForCourse = async (courseId: string) => {
-  const response = await axios.get(`${COURSES_API}/${courseId}/users`);
+  const response = await axiosWithCredentials.get(`${COURSES_API}/${courseId}/users`);
   return response.data;
  };
  

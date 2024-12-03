@@ -3,10 +3,7 @@ import axios from "axios";
 
 // configure axios to include cookies in requests
 const axiosWithCredentials = axios.create({ 
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json'
-  }
+  withCredentials: true
 });
 
 export const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER || 'http://localhost:4000';
@@ -30,12 +27,12 @@ export const findAllUsers = async () => {
 
 export const findUsersByRole = async (role: string) => {
   const response = await
-    axios.get(`${USERS_API}?role=${role}`);
+    axiosWithCredentials.get(`${USERS_API}?role=${role}`);
   return response.data;
 };
 
 export const findUsersByPartialName = async (name: string) => {
-  const response = await axios.get(`${USERS_API}?name=${name}`);
+  const response = await axiosWithCredentials.get(`${USERS_API}?name=${name}`);
   return response.data;
 };
 
