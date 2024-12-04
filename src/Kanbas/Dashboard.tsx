@@ -50,16 +50,15 @@ export default function Dashboard({
 
   return (
     <div id="wd-dashboard" className="container-fluid">
-    {role === "STUDENT" ? (
+
+      {
       <div className="d-flex align-items-center justify-content-between">
         <h1 id="wd-dashboard-title">Dashboard</h1>
         <button onClick={() => setEnrolling(!enrolling)} className="float-end btn btn-primary" >
           {enrolling ? "My Courses" : "All Courses"}
         </button>
       </div>
-    ): (
-      <h1 id="wd-dashboard-title">Dashboard</h1>
-    )}
+    }
     <hr />
     
     {role === "FACULTY" && (
