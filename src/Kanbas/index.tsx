@@ -16,6 +16,9 @@ export default function Kanbas() {
   const navigate = useNavigate();
   const [courses, setCourses] = useState<any[]>([]);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  if (currentUser){
+    console.log(currentUser._id);
+  }
 
   const [enrolling, setEnrolling] = useState<boolean>(false);
   const findCoursesForUser = async () => {
